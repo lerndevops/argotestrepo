@@ -6,7 +6,7 @@ metadata:
   labels:
     app: nginx
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: nginx
@@ -22,9 +22,7 @@ spec:
           resources:
             limits:
               cpu: 20m ## 10% of 1 core on your system
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -37,9 +35,7 @@ spec:
    - protocol: TCP
      port: 80
      targetPort: 80
-
 ---
-
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -49,7 +45,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: nginx
-  minReplicas: 3
+  minReplicas: 4
   maxReplicas: 10
   metrics:
     - type: Resource
@@ -58,4 +54,3 @@ spec:
         target:
           type: Utilization
           averageUtilization: 10
-
